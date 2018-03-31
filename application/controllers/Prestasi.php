@@ -5,14 +5,30 @@ class Prestasi extends CI_Controller{
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('M_Prestasi');
+		$this->load->model('M_General');
 	}
 
 	function index(){
+
+
 		$username = $this->session->userdata('username');
-		$data['mahasiswa'] = $this->db->get_where('tbl_user',array('username'=>$username))->row_array();
-		$data['records'] 	= $this->db->get_where('tbl_history_lomba',array('nim'=>$username,'status'=>'Belum Terverifikasi'))->result();
-		$this->template->load('template','prestasi/list',$data);
+		$level 		= $this->session->userdata('id_level_user');
+
+		if($level == 3){
+			$data['mahasiswa'] = $this->db->get_where('tbl_user',array('username'=>$username))->row_array();
+			$data['records'] 	= $this->db->get_where('tbl_history_lomba',array('nim'=>$username,'status'=>'Belum Terverifikasi'))->result();
+			$this->template->load('template','prestasi/list',$data);
+		}else if($level == 1){
+			$data['records'] 	= $this->db->get('tbl_history_lomba')->result();
+			$this->template->load('template','admin/prestasi',$data);
+		}else{
+			$data['records'] 	= $this->db->get('tbl_history_lomba')->result();
+			$this->template->load('template','dosen/prestasi',$data);			
+		}
 	}
+
+
+
 
 	function add(){
 		$username = $this->session->userdata('username');
@@ -36,7 +52,6 @@ class Prestasi extends CI_Controller{
 		// $prestasi 			= $this->db->get_where('jenis_kompetisi',array('id_prestasi'=>$id_prestasi))->row_array();
 		// echo $prestasi['jenis_prestasi'];
 		echo $this->formVerifikasi($status);
-
 	}
 
 	function addPerlombaan(){
@@ -81,6 +96,24 @@ class Prestasi extends CI_Controller{
         }		
 	}
 
+	function verifikasi(){
+		$id = $this->uri->segment(3);
+		$this->M_Prestasi->updateLomba($id);
+		redirect('Prestasi');
+	}
+
+	function lihat()
+	{
+		$id_history = $this->uri->segment(3);
+		$data = $this->db->get_where('tbl_history_lomba',array('id_history'=>$id_history))->row_array();
+		$data['mahasiswa']  		= $this->M_General->showMahasiswa($data['nim']);
+		$data['id_prestasi']  		= $data['id_prestasi'];
+		$data['kompetisi'] 			= $this->M_General->showPrestasi($data['id_prestasi']);
+		$data['prestasi'] 			= $this->M_General->showLomba($data['id_prestasi'],$data['id_lomba']);
+
+        $this->template->load('template','prestasi/viewlist',$data);		
+	}
+
 	function formVerifikasi($status){
 
         echo '<div class="table-responsive">
@@ -111,21 +144,21 @@ class Prestasi extends CI_Controller{
 		$records 	= $this->db->get_where('tbl_history_lomba',array('nim'=>$username,'status'=>'Belum Terverifikasi'))->result();
 		$no = 1;
       	foreach ($records as $r) {
-        $id_prestasi = $r->id_prestasi;
-        
+        $id_prestasi 	= $r->id_prestasi;
+        $id_lomba 		= $r->id_lomba;
         if($r->id_prestasi == 1 || $r->id_prestasi == 2)
         {
-	        $query = $this->db->get_where('tbl_lomba',array('id_prestasi'=>$id_prestasi))->row_array();
+	        $query = $this->db->get_where('tbl_lomba',array('id_lomba'=>$id_lomba))->row_array();
 	        $lomba = $query['nama_kompetisi'];
 	    }
 	    else if($r->id_prestasi == 3 || $r->id_prestasi == 4)
 	    {
-	    	$query = $this->db->get_where('tbl_penelitian',array('id_prestasi'=>$id_prestasi))->row_array();
+	    	$query = $this->db->get_where('tbl_penelitian',array('id_penelitian'=>$id_lomba))->row_array();
 	        $lomba = $query['judul_penelitian'];
 	    }
 	    else
 	    {
-	    	$query = $this->db->get_where('tbl_organisasi',array('id_prestasi'=>$id_prestasi))->row_array();
+	    	$query = $this->db->get_where('tbl_organisasi',array('id_kepanitiaan'=>$id_lomba))->row_array();
 	        $lomba = $query['nama_organisasi'];
 		}
 
@@ -186,7 +219,6 @@ class Prestasi extends CI_Controller{
        		</table>
        		</div>";
        }
-
 	}
 
 	function formPrestasi($id_prestasi){
@@ -356,7 +388,7 @@ class Prestasi extends CI_Controller{
 	                    Nama Organisasi
 	                </label>
 	                <div class="col-sm-9">
-	                    <input type="date" name="organisasi" required placeholder="Masukan Nama Organisasi" id="form-field-1" class="form-control">
+	                    <input type="text" name="waktu" required placeholder="Masukan Nama Organisasi" id="form-field-1" class="form-control">
 	                </div>
 	            </div>
 			    <div class="form-group">
@@ -380,7 +412,7 @@ class Prestasi extends CI_Controller{
 	                	Waktu Jabatan
 	                </label>
 	                <div class="col-sm-9">
-	                    <input type="text" name="waktu" required placeholder="Masukan Waktu Jabatan" id="form-field-1" class="form-control">
+	                    <input type="date" name="waktu" required placeholder="Masukan Nama Organisasi" id="form-field-1" class="form-control">
 	                </div>
 	            </div>
 	            <div class="form-group">
@@ -396,7 +428,7 @@ class Prestasi extends CI_Controller{
 	                    URL
 	                </label>
 	                <div class="col-sm-9">
-	                    <input type="url" name="url" required placeholder="Masukan Link Url" id="form-field-1" class="form-control">
+	                    <input type="url" name="url" placeholder="Masukan Link Url" id="form-field-1" class="form-control">
 	                </div>
 	            </div>
 	            <div class="form-group">
@@ -404,7 +436,7 @@ class Prestasi extends CI_Controller{
 	                    Keterangan Lain
 	                </label>
 	                <div class="col-sm-9">
-	                    <input type="text" name="keterangan" required placeholder="Surat keterangan dari ketua, karya ilmiah" id="form-field-1" class="form-control">
+	                    <input type="text" name="keterangan" placeholder="Surat keterangan dari ketua, karya ilmiah" id="form-field-1" class="form-control">
 	                </div>
 	            </div>
 	            <div class="form-group">
@@ -444,8 +476,6 @@ class Prestasi extends CI_Controller{
 	        $upload = $this->upload->data();
 			return $upload['file_name'];
 		}
-
-
     }
 
 }

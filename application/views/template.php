@@ -311,7 +311,8 @@
                                                             <img alt="" src="./<?php echo base_url();?>assets/images/avatar-1.jpg">
                                                         </div>
                                                         <div class="thread-content">
-                                                            <span class="author"><?php echo $this->session->userdata['nama_lengkap'];?> </span>
+                                                            <span class="author">
+                                                            <?php echo $this->session->userdata['nama_lengkap'];?> </span>
                                                             <span class="preview">Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</span>
                                                             <span class="time">2 mins</span>
                                                         </div>
@@ -444,16 +445,43 @@
                             <span class="selected"></span>
                         </a>
                         <ul class="sub-menu">
-                            <li>
+                        <?php
+                        $level = $this->session->userdata('id_level_user');
+                        if($level == 3){
+                        ?>
+                            <li>    
                                 <a href="<?php echo base_url();?>index.php/prestasi/add" class="close-sidebar-left">
                                     <span class="title"> DAFTAR PRESTASI </span>
                                 </a>
                             </li>
+                        <?php
+                        }?>
                             <li>
                                 <a href="<?php echo base_url();?>index.php/prestasi" class="set-boxed-layout">
                                     <span class="title"> LIHAT PRESTASI </span>
                                 </a>
                             </li>
+                        </ul>
+                    </li>
+                    <?php
+                    $level = $this->session->userdata('id_level_user');
+                    if($level != 3){
+                    ?>
+                    <li>
+                        <a href="javascript:void(0)">
+                            <i class="clip-user-2"></i>
+                            <span class="title"> MAHASISWA </span><i class="icon-arrow"></i>
+                            <span class="selected"></span>
+                        </a>
+                        <ul class="sub-menu">
+
+                            <li>    
+                                <a href="<?php echo base_url();?>index.php/mahasiswa" class="close-sidebar-left">
+                                    <span class="title"> DATA MAHASISWA </span>
+                                </a>
+                            </li>
+                        <?php
+                        }?>
                         </ul>
                     </li>
                     <li>

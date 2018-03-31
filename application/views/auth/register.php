@@ -62,19 +62,19 @@
         if(isset($error)){
           ?>
         <div class="alert alert-info">
-          <strong>Info!</strong> Username atau Password Anda Salah.
+          <strong>Info!</strong> <?php echo $error;?>
         </div>
         <?php
           }?>
-          <?php echo form_open('auth/check_login');?>
+          <?php echo form_open('auth/check_register');?>
             <div class="form-group">
               <input type="text" class="form-control" id="exampleInputEmail1" name="username" placeholder="Enter your username address">
             </div>
             <div class="form-group">
               <input type="password" class="form-control" id="exampleInputEmail1" name="password" placeholder="Enter your password address">
             </div>
-            <button type="submit" class="btn btn-sm" name="login">Login Now!</button>
-            <?php echo anchor('auth/register','Register',array('class'=>'btn btn-sm'));?>
+            <button type="submit" class="btn btn-sm" name="register">Register Sekarang!</button>
+            <?php echo anchor('auth','Kembali',array('class'=>'btn btn-sm'));?>
             <?php echo form_close();?>
         </div><!-- /col-lg-6 -->
         <div class="col-lg-6">

@@ -11,6 +11,10 @@ class Auth extends CI_Controller{
 		$this->load->view('auth/login');			
 	}
 
+	public function register(){
+		$this->load->view('auth/register');					
+	}
+
 
 	function check_login(){
 		if(isset($_POST['login'])){
@@ -23,10 +27,41 @@ class Auth extends CI_Controller{
 				$direct = checkUser($level);
 				redirect($direct);
 			}else{
-				redirect('auth');
+				$data['error'] = "Andreas";
+				$this->load->view('auth/login',$data);
 			}
 		}else{
 			redirect('auth');
 		}
+	}
+
+	function check_register(){
+		if(isset($_POST['register'])){
+			$username 	= $this->input->post('username');
+			$password 	= $this->input->post('password');
+			$result 	= $this->M_Auth->check_login($username,$password);
+			if(!empty($result)){
+				$data['error'] = "Username sudah terdaftar";
+				$this->load->view('auth/register',$data);
+			}else{
+				$result = $this->M_Auth->register();
+				$this->session->set_userdata($result);
+				$data['mahasiswa'] = $result;
+				$this->load->view('auth/mahasiswa',$data);
+			}
+		}else{
+			redirect('auth');
+		}
+	}
+
+	function biodata_register(){
+		$data = $this->M_Auth->register_biodata($this->session->userdata('username'));
+		$this->session->sess_destroy();
+		$this->session->set_userdata($result);
+		redirect('prestasi/add');
+	}
+	function logout(){
+		$this->session->sess_destroy();
+		redirect('auth');
 	}
 }

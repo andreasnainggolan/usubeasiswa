@@ -1,3 +1,9 @@
+<?php
+if($this->session->userdata('username') == null){
+  redirect('auth');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -66,15 +72,35 @@
         </div>
         <?php
           }?>
-          <?php echo form_open('auth/check_login');?>
+          <?php echo form_open('auth/biodata_register');?>
             <div class="form-group">
-              <input type="text" class="form-control" id="exampleInputEmail1" name="username" placeholder="Enter your username address">
+              <input type="text" class="form-control" id="exampleInputEmail1" name="nama" placeholder="Nama Mahasiswa">
             </div>
             <div class="form-group">
-              <input type="password" class="form-control" id="exampleInputEmail1" name="password" placeholder="Enter your password address">
+              <select name="jurusan" class="form-control">
+                <option value="Teknologi Informasi">Teknologi Informasi</option>
+                <option value="Ilmu Komputer">Ilmu Komputer</option>
+              </select>
             </div>
-            <button type="submit" class="btn btn-sm" name="login">Login Now!</button>
-            <?php echo anchor('auth/register','Register',array('class'=>'btn btn-sm'));?>
+            <div class="form-group">
+              <select name="jk" class="form-control">
+                <option value="L">Laki Laki</option>
+                <option value="P">Perempuan</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" id="exampleInputEmail1" name="tempat" placeholder="Tempat Lahir">
+            </div>
+
+            <div class="form-group">
+              <input type="date" class="form-control" id="exampleInputEmail1" name="tanggal" placeholder="tanggalLahir">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" id="exampleInputEmail1" name="alamat" placeholder="Alamat">
+            </div>
+
+            <button type="submit" class="btn btn-sm" name="register">Register Sekarang!</button>
+            <?php echo anchor('auth','Kembali',array('class'=>'btn btn-sm'));?>
             <?php echo form_close();?>
         </div><!-- /col-lg-6 -->
         <div class="col-lg-6">
