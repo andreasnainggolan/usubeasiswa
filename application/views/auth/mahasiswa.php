@@ -74,29 +74,29 @@ if($this->session->userdata('username') == null){
           }?>
           <?php echo form_open('auth/biodata_register');?>
             <div class="form-group">
-              <input type="text" class="form-control" id="exampleInputEmail1" name="nama" placeholder="Nama Mahasiswa">
+              <input type="text" class="form-control" required id="exampleInputEmail1" name="nama" placeholder="Nama Mahasiswa">
             </div>
             <div class="form-group">
-              <select name="jurusan" class="form-control">
+              <select name="jurusan" class="form-control" required>
                 <option value="Teknologi Informasi">Teknologi Informasi</option>
                 <option value="Ilmu Komputer">Ilmu Komputer</option>
               </select>
             </div>
             <div class="form-group">
-              <select name="jk" class="form-control">
+              <select name="jk" class="form-control" required>
                 <option value="L">Laki Laki</option>
                 <option value="P">Perempuan</option>
               </select>
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" id="exampleInputEmail1" name="tempat" placeholder="Tempat Lahir">
+              <input type="text" class="form-control" required id="exampleInputEmail1" name="tempat" placeholder="Tempat Lahir">
             </div>
 
             <div class="form-group">
-              <input type="date" class="form-control" id="exampleInputEmail1" name="tanggal" placeholder="tanggalLahir">
+              <input type="date" class="form-control" required id="exampleInputEmail1" name="tanggal" placeholder="tanggalLahir">
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" id="exampleInputEmail1" name="alamat" placeholder="Alamat">
+              <input type="text" class="form-control" required id="exampleInputEmail1" name="alamat" placeholder="Alamat">
             </div>
 
             <button type="submit" class="btn btn-sm" name="register">Register Sekarang!</button>

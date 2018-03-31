@@ -80,8 +80,13 @@
           <div class="table-responsive">
             <table style="text-align: center;" class="table table-bordered">
               <tr>
+                <td>Jenis Kompetisi</td>
+                <td><?php echo $kompetisi['jenis_prestasi'];?></td>
+              </td>
+
+              <tr>
                 <td>Nama Kompetisi</td>
-                <td><?php echo $kompetisi['nama_kompetisi'];?></td>
+                <td><?php echo $prestasi['nama_kompetisi'];?></td>
               </td>
 
               <tr>

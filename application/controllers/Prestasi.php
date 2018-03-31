@@ -9,11 +9,8 @@ class Prestasi extends CI_Controller{
 	}
 
 	function index(){
-
-
 		$username = $this->session->userdata('username');
 		$level 		= $this->session->userdata('id_level_user');
-
 		if($level == 3){
 			$data['mahasiswa'] = $this->db->get_where('tbl_user',array('username'=>$username))->row_array();
 			$data['records'] 	= $this->db->get_where('tbl_history_lomba',array('nim'=>$username,'status'=>'Belum Terverifikasi'))->result();
@@ -111,6 +108,7 @@ class Prestasi extends CI_Controller{
 		$data['kompetisi'] 			= $this->M_General->showPrestasi($data['id_prestasi']);
 		$data['prestasi'] 			= $this->M_General->showLomba($data['id_prestasi'],$data['id_lomba']);
 
+
         $this->template->load('template','prestasi/viewlist',$data);		
 	}
 
@@ -121,24 +119,28 @@ class Prestasi extends CI_Controller{
               <thead>
                 <tr>
                   <th>No</th>
+                  <th>Nama Mahasiswa</th>
+                  <th>NIM</th>
                   <th>Nama Perlombaan</th>
                   <th>Jenis Prestasi</th>
                   <th>Tanggal</th>
-                  <th>Status</th>
                   <th></th>
                 </tr>
               </thead>
               <tfoot>
                 <tr>
                   <th>No</th>
+                  <th>Nama Mahasiswa</th>
+                  <th>NIM</th>
                   <th>Nama Perlombaan</th>
                   <th>Jenis Prestasi</th>
                   <th>Tanggal</th>
-                  <th>Status</th>
                   <th></th>
                 </tr>
               </tfoot>              
 				<tbody>';
+		$user 	= $this->session->userdata('username');
+        $mhs 	= $this->db->get_where('tbl_mahasiswa',array('nim'=>$user))->row_array();
 		if($status == 0){
 		$username   = $this->session->userdata('username');
 		$records 	= $this->db->get_where('tbl_history_lomba',array('nim'=>$username,'status'=>'Belum Terverifikasi'))->result();
@@ -168,11 +170,12 @@ class Prestasi extends CI_Controller{
       	echo"
         <tr>
           <td>$no</td>
+          <td>".$mhs['nama_mahasiswa']."</td>
+          <td>".$r->nim."</td>
           <td>$lomba</td>
           <td>$prestasi</td>
           <td>".$r->tanggal."</td>
-          <td>".$r->nim."</td>
-          <td>".anchor('pretasi/hasil/'.$r->id_history,'Lihat Hasil',"class='btn btn-primary btn-sm'")."</td>
+          <td>".anchor('prestasi/lihat/'.$r->id_history,'Lihat Hasil',"class='btn btn-primary btn-sm'")."</td>
 		</tr>";
 		$no++;
        	}
@@ -212,7 +215,7 @@ class Prestasi extends CI_Controller{
           <td>$prestasi</td>
           <td>".$r->tanggal."</td>
           <td>".$r->nim."</td>
-          <td>".anchor('pretasi/hasil/'.$r->id_history,'Lihat Hasil',"class='btn btn-primary btn-sm'")."</td>
+          <td>".anchor('prestasi/lihat/'.$r->id_history,'Lihat Hasil',"class='btn btn-primary btn-sm'")."</td>
 		</tr>";$no++;
        	}
        	echo "</tbody>

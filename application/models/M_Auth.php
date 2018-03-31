@@ -27,6 +27,7 @@ class M_Auth extends CI_Model{
 	function register_biodata($nim){
 
 		$data = array(
+		'nim'			=> $nim,
 		'nama_mahasiswa'=> $this->input->post('nama',TRUE),
 		'jurusan'	 	=> $this->input->post('jurusan',TRUE),
 		'jk' 			=> $this->input->post('jk',TRUE),
@@ -34,7 +35,9 @@ class M_Auth extends CI_Model{
 		'tanggal_lahir' => $this->input->post('tanggal',TRUE),
 		'alamat' 		=> $this->input->post('alamat',TRUE),
 		);
-		$user = $this->db->get_where('tbl_user',array('username'=>$nim))->row_array();
+
+		$this->db->insert('tbl_mahasiswa',$data);
+		$user = $this->db->get_where($this->table,array('username'=>$nim))->row_array();
 		return $user;
 	}
 

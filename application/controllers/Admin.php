@@ -5,11 +5,11 @@ class Admin extends CI_Controller{
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('M_Admin');
+		$this->load->model('M_Mahasiswa');
 	}
 
 	function index(){
-		$username = $this->session->userdata('username');
-		$data['mahasiswa'] = $this->db->get_where('tbl_user',array('username'=>$username))->row_array();
+		$data['mhs'] = $this->M_Mahasiswa->showMahasiswa();
 		$this->template->load('template','mahasiswa/list',$data);
 
 	}
@@ -29,20 +29,26 @@ class Admin extends CI_Controller{
             <table style="text-align: center;" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead>
                 <tr>
-	                <th width="20%">No</th>
-		            <th width="20%">Nama Perlombaan</th>
-	                <th width="20%">Jenis Prestasi</th>
-	                <th width="20%">Tanggal</th>
-	                <th width="10%"></th>
+	                <th>No</th>
+		            <th>Nama Mahasiswa</th>
+		            <th>NIM</th>
+		            <th>Prodi</th>
+		            <th>Nama Perlombaan</th>
+	                <th>Jenis Prestasi</th>
+	                <th>Tanggal</th>
+	                <th></th>
                 </tr>
               </thead>
               <tfoot>
                 <tr>
-                  <th>No</th>
-                  <th>Nama Perlombaan</th>
-                  <th>Jenis Prestasi</th>
-                  <th>Tanggal</th>
-                  <th></th>
+					<th>No</th>
+					<th>Nama Mahasiswa</th>
+					<th>NIM</th>
+					<th>Prodi</th>
+					<th>Nama Perlombaan</th>
+					<th>Jenis Prestasi</th>
+					<th>Tanggal</th>
+					<th></th>
                 </tr>
               </tfoot>              
 				<tbody>';
@@ -52,6 +58,7 @@ class Admin extends CI_Controller{
       	foreach ($records as $r) {
         $id_prestasi 	= $r->id_prestasi;
         $id_lomba 		= $r->id_lomba;
+        $mhs  			= $this->db->get_where('tbl_mahasiswa',array('nim'=>$r->nim))->row_array();
         if($r->id_prestasi == 1 || $r->id_prestasi == 2)
         {
 	        $query = $this->db->get_where('tbl_lomba',array('id_lomba'=>$id_lomba))->row_array();
@@ -74,10 +81,13 @@ class Admin extends CI_Controller{
       	echo"
         <tr>
           <td>$no</td>
+          <td>".$mhs['nama_mahasiswa']."</td>
+          <td>".$mhs['nim']."</td>
+          <td>".$mhs['jurusan']."</td>
           <td>$lomba</td>
           <td>$prestasi</td>
           <td>".$r->tanggal."</td>
-          <td>".anchor('pretasi/hasil/'.$r->id_history,'Lihat Hasil',"class='btn btn-primary btn-sm'")."</td>
+          <td>".anchor('prestasi/lihat/'.$r->id_history,'Lihat Hasil',"class='btn btn-primary btn-sm'")."</td>
 		</tr>";
 		$no++;
        	}

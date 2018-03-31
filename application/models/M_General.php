@@ -2,7 +2,7 @@
 
 class M_General extends CI_Model{
 
-	function showMahasiswa($ni){
+	function showMahasiswa($nim){
 		return $this->db->get_where('tbl_mahasiswa',array('nim'=>$nim))->row_array();
 	}
 

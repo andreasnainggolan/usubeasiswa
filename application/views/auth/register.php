@@ -68,10 +68,10 @@
           }?>
           <?php echo form_open('auth/check_register');?>
             <div class="form-group">
-              <input type="text" class="form-control" id="exampleInputEmail1" name="username" placeholder="Enter your username address">
+              <input type="text" required class="form-control" id="exampleInputEmail1" name="username" placeholder="Enter your username address">
             </div>
             <div class="form-group">
-              <input type="password" class="form-control" id="exampleInputEmail1" name="password" placeholder="Enter your password address">
+              <input type="password" required class="form-control" id="exampleInputEmail1" name="password" placeholder="Enter your password address">
             </div>
             <button type="submit" class="btn btn-sm" name="register">Register Sekarang!</button>
             <?php echo anchor('auth','Kembali',array('class'=>'btn btn-sm'));?>

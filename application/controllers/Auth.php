@@ -56,8 +56,12 @@ class Auth extends CI_Controller{
 
 	function biodata_register(){
 		$data = $this->M_Auth->register_biodata($this->session->userdata('username'));
-		$this->session->sess_destroy();
-		$this->session->set_userdata($result);
+		print_r($data['username']);
+
+		$data = $this->db->get_where('tbl_mahasiswa',array('nim'=>$data['username']))->row_array();
+		$this->session->set_userdata(array(
+			'nama_lengkap' => $data['nama_mahasiswa']
+			));
 		redirect('prestasi/add');
 	}
 	function logout(){
