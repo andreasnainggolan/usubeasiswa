@@ -2,40 +2,35 @@
 
 class M_Dosen extends CI_Model{
 
-	public $table = "tbl_mahasiswa";
+	public $table = "tbl_dosen";
 
-	function save($foto){
+	function save(){
 		$data = array(
-		'nim' 			=> $this->input->post('nim',TRUE),
-		'kd_agama'		=> $this->input->post('agama',TRUE),
-		'nama' 			=> $this->input->post('nama',TRUE),
-		'tanggal_lahir' => $this->input->post('tanggal_lahir',TRUE),
-		'tempat_lahir' 	=> $this->input->post('tempat_lahir',TRUE),
-		'gender' 		=> $this->input->post('gender',TRUE),
-		'foto'			=> $foto,
-		'id_rombel'		=> $this->input->post('rombel',TRUE)
+		'nip' 			=> $this->input->post('nip',TRUE),
+		'nama_dosen'	=> $this->input->post('nama',TRUE),
+		'jk' 			=> $this->input->post('jk',TRUE),
+		'alamat' 		=> 	$this->input->post('alamat',TRUE),
+		'no_hp' 		=> $this->input->post('handphone',TRUE),
 		);
-
 		// print_r($data);
 		$this->db->insert($this->table,$data);
 	}
 
+
+
 	function update(){
 		$data = array(
-		'nim' 			=> $this->input->post('nim',TRUE),
-		'kd_agama'		=> $this->input->post('agama',TRUE),
-		'nama' 			=> $this->input->post('nama',TRUE),
-		'tanggal_lahir' => $this->input->post('tanggal_lahir',TRUE),
-		'tempat_lahir' 	=> $this->input->post('tempat_lahir',TRUE),
-		'gender' 		=> $this->input->post('gender',TRUE),
-		'foto'			=> $foto,
-		'id_rombel'		=> $this->input->post('rombel',TRUE)
-
+		'nip' 			=> $this->input->post('nip',TRUE),
+		'nama_dosen'	=> $this->input->post('nama',TRUE),
+		'jk' 			=> $this->input->post('jk',TRUE),
+		'alamat' 		=> 	$this->input->post('alamat',TRUE),
+		'no_hp' 		=> $this->input->post('handphone',TRUE),
 		);
 
-		$id = $this->input->post('nim');
-		$this->db->where('nim',$id);
+		$nip = $this->input->post('nip');
+		$this->db->where('nip',$nip);
 		$this->db->update($this->table,$data);
 	
 	}
+
 }

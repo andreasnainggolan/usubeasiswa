@@ -8,11 +8,48 @@ class Dosen extends CI_Controller{
 	}
 
 	function index(){
-		$username = $this->session->userdata('username');
-		$data['mahasiswa'] = $this->db->get_where('tbl_user',array('username'=>$username))->row_array();
-		$this->template->load('template','mahasiswa/list',$data);
+		$data['dosen'] = $this->db->get('tbl_dosen')->result();
+		$this->template->load('template','dosen/list',$data);
+	}
+
+
+	function data(){
+		$data['dosen'] = $this->db->get('tbl_dosen')->result();
+		$this->template->load('template','dosen/list',$data);
+	}
+
+
+	function addDosen(){
+		if(isset($_POST['submit'])){
+			$this->M_Dosen->save();
+			redirect('dosen');
+		}else{
+			$this->template->load('template','dosen/add');
+		}
+	}
+
+	function editDosen(){
+		if(isset($_POST['submit'])){
+			$this->M_Dosen->update();
+			redirect('dosen/data');
+		}else{
+			$id = $this->uri->segment(3);
+			$data['dosen'] = $this->db->get_where('tbl_dosen',array('nip'=>$id))->row_array();
+			$this->template->load('template','dosen/edit',$data);
+		}
+	}
+
+
+	function deleteDosen(){
+		$nip = $this->uri->segment(3);
+		if(!empty($nip)){
+			$this->db->where('nip',$nip);
+			$this->db->delete('tbl_dosen');
+		}
+		redirect('dosen');
 
 	}
+
 
 	function dataVerifikasi()
 	{

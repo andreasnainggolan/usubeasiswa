@@ -25,8 +25,6 @@ class Prestasi extends CI_Controller{
 	}
 
 
-
-
 	function add(){
 		$username = $this->session->userdata('username');
 		$data['mahasiswa'] = $this->db->get_where('tbl_user',array('username'=>$username))->row_array();
