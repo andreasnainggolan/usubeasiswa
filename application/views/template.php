@@ -170,6 +170,13 @@
                                     <span class="title"> TAMBAH DOSEN </span>
                                 </a>
                             </li>
+
+                            <li>    
+                                <a href="<?php echo base_url();?>index.php/dosen/addDosen" class="close-sidebar-left">
+                                    <span class="title"> TAMBAH DOSEN </span>
+                                </a>
+                            </li>
+
                             <li>    
                                 <a href="<?php echo base_url();?>index.php/dosen/data" class="close-sidebar-left">
                                     <span class="title"> DATA DOSEN </span>
